@@ -4,6 +4,9 @@ const router = express.Router();
 //instantiate mongodb 
 const { db } = require('../mongo');
 
+//instantiate connection to db
+const dbo = require('../db/conn')
+
 /* GET users listing. */
 router.get('/', async function(req, res, next) {
   const blogs = await db()
@@ -74,10 +77,6 @@ router.get('/get-one', async function (req, res, next) {
       blogs: queryFind
     });
 });
-
-    
-   
-
 
 
 router.get('/single-blog/:titleToGet', async function (req, res, next) {
