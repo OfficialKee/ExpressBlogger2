@@ -6,9 +6,10 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
 //loads the contents of config.env
-require("dotenv").config({path: './config.env'});
+// require("dotenv").config({path: './config.env'});
+require("dotenv").config()
 
-var { mongoConnect } = require('./mongo.js');
+const { mongoConnect } = require('./mongo');
 mongoConnect();
 
 //setup router for each set of routes 
