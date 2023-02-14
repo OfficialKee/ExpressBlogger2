@@ -1,16 +1,18 @@
 const express = require('express');
 const router = express.Router();
 
-//instantiate mongodb 
-const { db } = require('../mongo');
+const { validateBlogs } = require("../validation/blogs");
 
 //instantiate connection to db
 const dbo = require('../db/conn')
 
+//instantiate mongodb 
+const { db } = require('../mongo');
+
 /* GET users listing. */
 router.get('/', async function(req, res, next) {
   const blogs = await db()
-  .collection('sample_blogs')
+  .collection('sample_Blogs')
   .find({})
   .limit(5)
   .toArray(function(err, result){
@@ -27,8 +29,8 @@ router.get('/', async function(req, res, next) {
     });
 
     
+}); 
 
-});
 
 /* GET users listing. */
 
@@ -37,7 +39,7 @@ router.get('/', async function(req, res, next) {
 router.get('/all', async function(req, res, next) {
 
   const blogsAll = await db()
-  .collection('sample_blogs')
+  .collection('sample_Blogs')
   .find({})
   .limit(5)
   .toArray(function (err, result) {
@@ -55,13 +57,15 @@ router.get('/all', async function(req, res, next) {
 
 });
 
+
+
 router.get('/get-one', async function (req, res, next) {
   
 
   const title = req.query.title
  
   const queryFind = await db()
-  .collection('sample_blogs')
+  .collection('sample_Blogs')
   .find({title: title})
   .limit(5)
   .toArray(function (err, result) {
@@ -78,13 +82,20 @@ router.get('/get-one', async function (req, res, next) {
     });
 });
 
+    
+   
+
+
+
+
+
 
 router.get('/single-blog/:titleToGet', async function (req, res, next) {
     
  const titleToGet = req.params.titleToGet
     
   const queryFind = await db()
-  .collection('sample_blogs')
+  .collection('sample_Blogs')
   .find({title: titleToGet})
   .limit(5)
   .toArray(function (err, result) {
@@ -103,5 +114,78 @@ router.get('/single-blog/:titleToGet', async function (req, res, next) {
  })
 
 
+
+router.delete('/delete/:titleToDelete', async function (req,res, next) {
+      
+  const blogToDelete = req.params.titleToDelete
+          
+  const queryFind = await db()
+  .collection('sample_Blogs')
+  .deleteOne({title: blogToDelete})
+  .limit(5)
+  .toArray(function (err, result) {
+      if (err) {
+      res.status(400).send('Error fetching listings!');
+               } else {
+                res.json(result);
+              }
+            });
+        
+            res.json({
+              sucess: true,
+              blogs: queryFind
+            });
+          })
+
+
+
+
+
+router.post("/create-one", async function (req, res, next) {
+
+            //try block, for validation code
+           
+          
+              // anticipate fields of our post request /create-one
+              // parse out request data to local variables
+              const title = req.body.title;
+              const text = req.body.text;
+              const author = req.body.author;
+              const category = req.body.category;
+              
+          
+              //create userData object fields
+              const blogData = {
+                title: title,
+                text: text,
+                author: author,
+                category: category,
+                createdAt: new Date(),
+                lastModified: new Date(),
+              };
+          
+              const queryFind = await db()
+              .collection('sample_Blogs')
+              .insertOne(blogData, function (err, result) {
+                if (err) {
+                  res.status(400).send('Error inserting blog!');
+                } else {
+                  console.log(`Added a blog with id ${result.insertedId}`);
+                  res.status(204).send("Added blog");
+                }
+              });
+
+              res.json({
+                sucess: true,
+                blogs: queryFind
+              });
+          });
+
+
+
+
+
+
+  
 
 module.exports = router;
