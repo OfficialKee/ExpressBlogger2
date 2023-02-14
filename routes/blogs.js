@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { validateBlogs } = require("../validation/blogs");
+// const { validateBlogs } = require("../validation/blogs");
 
 //instantiate connection to db
 const dbo = require('../db/conn')
