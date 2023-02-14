@@ -24,7 +24,7 @@ router.get('/', async function(req, res, next) {
     }); 
 
     res.json({
-      sucess:true,
+      success:true,
       blogs: blogs
     });
 
@@ -51,7 +51,7 @@ router.get('/all', async function(req, res, next) {
     });
 
     res.json({
-      sucess: true,
+      success: true,
       blogs: blogsAll
     });
 
@@ -77,7 +77,7 @@ router.get('/get-one', async function (req, res, next) {
     });
 
     res.json({
-      sucess: true,
+      success: true,
       blogs: queryFind
     });
 });
@@ -107,7 +107,7 @@ router.get('/single-blog/:titleToGet', async function (req, res, next) {
     });
 
     res.json({
-      sucess: true,
+      success: true,
       blogs: queryFind
     });
           
@@ -132,7 +132,7 @@ router.delete('/delete/:titleToDelete', async function (req,res, next) {
             });
         
             res.json({
-              sucess: true,
+              success: true,
               blogs: queryFind
             });
           })
@@ -176,7 +176,7 @@ router.post("/create-one", async function (req, res, next) {
               });
 
               res.json({
-                sucess: true,
+                success: true,
                 blogs: queryFind
               });
           });
